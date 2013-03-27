@@ -41,7 +41,6 @@ public class VideoServlet extends HttpServlet {
 		String repository = request.getParameter("repository");
 
 		VideoService videoService = new VideoService();
-		// using Java reflection to set service component
 		try {
 			videoService.videoComponent = (IVideoComponent) Class.forName(
 					"edu.thu.component." + repository.toLowerCase() + ".VideoComponent").newInstance();
