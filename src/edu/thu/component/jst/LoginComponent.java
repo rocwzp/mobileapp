@@ -1,5 +1,6 @@
 package edu.thu.component.jst;
 
+import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -19,14 +20,29 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 		InitialContext context;
 		try {
 			context = new InitialContext();
-			DataSource dataSource = (DataSource) context.lookup("java:comp/env/portal");
+			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jst_study");
 			Connection connection = dataSource.getConnection();
-			String sql = "select * from portal.SYS_USER where userid='" + paramMap.get("userId") + "'";
+			String sql = "select * from jst_study.T_USER where login_id='" + paramMap.get("userId") + "'";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
+			String pass=paramMap.get("password");			
+			MessageDigest md = MessageDigest.getInstance("MD5"); 
+			md.update(pass.getBytes()); 
+			byte b[] = md.digest(); 
+			int i; 
+
+			StringBuffer buf = new StringBuffer(""); 
+			for (int offset = 0; offset < b.length; offset++) { 
+				i = b[offset]; 
+				if(i<0) i+= 256; 
+				if(i<16) 
+					buf.append("0"); 
+				buf.append(Integer.toHexString(i)); 
+			} 
+			pass=buf.toString();
 			if (rs.next()) {
-				if (rs.getString("userpass").equalsIgnoreCase(paramMap.get("password"))) {
-					onResultSucceed(xmlResult, "µÇÂ¼³É¹¦", null);
+				if (rs.getString("password").equalsIgnoreCase(pass)) {
+					onResultSucceed(xmlResult, "µÇÂ½³É¹¦", null);
 				} else {
 					onResultFail(xmlResult, "µÇÂ¼Ê§°Ü", null);
 				}
