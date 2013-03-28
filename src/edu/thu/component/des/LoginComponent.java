@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import edu.thu.bean.XmlResult;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ILoginComponent;
+import edu.thu.util.CommonUtil;
 
 public class LoginComponent extends AbstractComponent implements ILoginComponent {
 
@@ -19,7 +20,7 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 		InitialContext context;
 		try {
 			context = new InitialContext();
-			DataSource dataSource = (DataSource) context.lookup("java:comp/env/portal");
+			DataSource dataSource = (DataSource) context.lookup(CommonUtil.JNDI_PORTAL);
 			Connection connection = dataSource.getConnection();
 			String sql = "select * from portal.SYS_USER where userid='" + paramMap.get("userId") + "'";
 			Statement statement = connection.createStatement();

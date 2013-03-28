@@ -9,9 +9,14 @@ public class CommonUtil {
 	public static final String DES = "des";
 	public static final String JST = "jst";
 
-	public static final int RESULT_CODE = -1;
-	public static final String RESULT_MESSAGE = "网络或者服务器故障";
-	public static final String RESULT_CONTENT = "";
+	public static final String JNDI_DES = "java:comp/env/des";
+	public static final String JNDI_RES = "java:comp/env/res";
+	public static final String JNDI_JST = "java:comp/env/jst";
+	public static final String JNDI_PORTAL = "java:comp/env/portal";
+
+	public static final int RESULT_CODE_DEFAULT = -1;
+	public static final String RESULT_MESSAGE_DEFAULT = "网络或者服务器故障";
+	public static final String RESULT_CONTENT_DEFAULT = "";
 
 	public static final int RESULT_CODE_EXCEPTION = -1;
 	public static final int RESULT_CODE_SUCCEED = 1;

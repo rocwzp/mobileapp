@@ -12,9 +12,9 @@ public class XmlResult {
 	private String content;// result content
 
 	public XmlResult() {
-		code = CommonUtil.RESULT_CODE;
-		message = CommonUtil.RESULT_MESSAGE;
-		content = CommonUtil.RESULT_CONTENT;
+		code = CommonUtil.RESULT_CODE_DEFAULT;
+		message = CommonUtil.RESULT_MESSAGE_DEFAULT;
+		content = CommonUtil.RESULT_CONTENT_DEFAULT;
 	}
 
 	public String buildXmlContent() {
