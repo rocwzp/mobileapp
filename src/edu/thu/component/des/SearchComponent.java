@@ -8,14 +8,14 @@ import java.util.HashMap;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import edu.thu.bean.XmlResult;
+import edu.thu.bean.JSONResult;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ISearchComponent;
 
 public class SearchComponent extends AbstractComponent implements ISearchComponent {
 
 	@Override
-	public void search(XmlResult xmlResult, HashMap<String, String> paramMap) {
+	public void search(JSONResult xmlResult, HashMap<String, String> paramMap) {
 		InitialContext context;
 		String searchType = paramMap.get("searchType");
 		String catalog = paramMap.get("catalog");

@@ -2,10 +2,10 @@ package edu.thu.icomponent;
 
 import java.util.HashMap;
 
-import edu.thu.bean.XmlResult;
+import edu.thu.bean.JSONResult;
 
 public interface IActivityComponent {
 
-	void activity(XmlResult xmlResult, HashMap<String, String> paramMap);
+	void activity(JSONResult xmlResult, HashMap<String, String> paramMap);
 
 }

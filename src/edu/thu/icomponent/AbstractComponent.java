@@ -1,6 +1,6 @@
 package edu.thu.icomponent;
 
-import edu.thu.bean.XmlResult;
+import edu.thu.bean.JSONResult;
 import edu.thu.util.CommonUtil;
 
 /**
@@ -9,7 +9,7 @@ import edu.thu.util.CommonUtil;
 public class AbstractComponent implements IComponent {
 
 	@Override
-	public void onResultSucceed(XmlResult xmlResult, String message, String content) {
+	public void onResultSucceed(JSONResult xmlResult, String message, String content) {
 		xmlResult.setCode(CommonUtil.RESULT_CODE_SUCCEED);
 		if (message != null) {
 			xmlResult.setMessage(message);
@@ -20,7 +20,7 @@ public class AbstractComponent implements IComponent {
 	}
 
 	@Override
-	public void onResultFail(XmlResult xmlResult, String message, String content) {
+	public void onResultFail(JSONResult xmlResult, String message, String content) {
 		xmlResult.setCode(CommonUtil.RESULT_CODE_FAIL);
 		if (message != null) {
 			xmlResult.setMessage(message);
@@ -31,7 +31,7 @@ public class AbstractComponent implements IComponent {
 	}
 
 	@Override
-	public void onResultException(XmlResult xmlResult, String message, String content) {
+	public void onResultException(JSONResult xmlResult, String message, String content) {
 		xmlResult.setCode(CommonUtil.RESULT_CODE_EXCEPTION);
 		if (message != null) {
 			xmlResult.setMessage(message);

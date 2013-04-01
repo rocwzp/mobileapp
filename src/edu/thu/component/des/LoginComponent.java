@@ -8,7 +8,7 @@ import java.util.HashMap;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import edu.thu.bean.XmlResult;
+import edu.thu.bean.JSONResult;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ILoginComponent;
 import edu.thu.util.CommonUtil;
@@ -16,7 +16,7 @@ import edu.thu.util.CommonUtil;
 public class LoginComponent extends AbstractComponent implements ILoginComponent {
 
 	@Override
-	public void login(XmlResult xmlResult, HashMap<String, String> paramMap) {
+	public void login(JSONResult xmlResult, HashMap<String, String> paramMap) {
 		InitialContext context;
 		try {
 			context = new InitialContext();

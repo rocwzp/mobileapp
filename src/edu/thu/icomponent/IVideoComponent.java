@@ -2,13 +2,13 @@ package edu.thu.icomponent;
 
 import java.util.HashMap;
 
-import edu.thu.bean.XmlResult;
+import edu.thu.bean.JSONResult;
 
 /**
  * 视频功能部件的接口
  */
 public interface IVideoComponent {
 
-	void video(XmlResult xmlResult, HashMap<String, String> paramMap);
+	void video(JSONResult xmlResult, HashMap<String, String> paramMap);
 
 }

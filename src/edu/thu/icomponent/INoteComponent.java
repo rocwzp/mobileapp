@@ -2,10 +2,10 @@ package edu.thu.icomponent;
 
 import java.util.HashMap;
 
-import edu.thu.bean.XmlResult;
+import edu.thu.bean.JSONResult;
 
 public interface INoteComponent {
 
-	void note(XmlResult xmlResult, HashMap<String, String> paramMap);
+	void note(JSONResult xmlResult, HashMap<String, String> paramMap);
 
 }

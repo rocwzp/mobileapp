@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.thu.bean.XmlResult;
+import edu.thu.bean.JSONResult;
 import edu.thu.icomponent.ILoginComponent;
 import edu.thu.service.AuthService;
 
@@ -34,6 +34,7 @@ public class AuthServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		System.out.println(request.getRequestURI().toString());
 		String action = request.getParameter("action");
 		String repository = request.getParameter("repository");
 
@@ -46,7 +47,7 @@ public class AuthServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		XmlResult xmlResult = new XmlResult();
+		JSONResult xmlResult = new JSONResult();
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		Enumeration<String> enumeration = request.getParameterNames();
 		while (enumeration.hasMoreElements()) {
@@ -58,7 +59,7 @@ public class AuthServlet extends HttpServlet {
 
 		// using Java reflection to invoke component method
 		try {
-			Method method = authService.getClass().getMethod(action, XmlResult.class, HashMap.class);
+			Method method = authService.getClass().getMethod(action, JSONResult.class, HashMap.class);
 			method.invoke(authService, xmlResult, paramMap);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -66,7 +67,7 @@ public class AuthServlet extends HttpServlet {
 
 		BufferedWriter out = null;
 		out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-8"));
-		out.write(xmlResult.buildXmlContent());
+		out.write(xmlResult.buildJsonContent());
 		out.flush();
 		out.close();
 	}
