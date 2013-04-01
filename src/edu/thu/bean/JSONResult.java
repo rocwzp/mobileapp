@@ -18,12 +18,6 @@ public class JSONResult {
 	}
 
 	public String buildJsonContent() {
-		// StringBuffer result = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
-		// result.append("<result>\n");
-		// result.append("<code>" + code + "</code>\n");
-		// result.append("<message>" + message + "</message>\n");
-		// result.append("<content>" + content + "</content>\n");
-		// result.append("</result>");
 		StringBuffer result = new StringBuffer();
 		// {"code":0/-1/1,"message":"message","content":{content}}
 		result.append("{\"code\":").append(code).append(",\"message\":\"").append(message).append("\",\"content\":")
