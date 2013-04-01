@@ -21,6 +21,7 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 		try {
 			context = new InitialContext();
 			DataSource dataSource = (DataSource) context.lookup(CommonUtil.JNDI_PORTAL);
+			System.out.println("hha");
 			Connection connection = dataSource.getConnection();
 			String sql = "select * from portal.SYS_USER where userid='" + paramMap.get("userId") + "'";
 			Statement statement = connection.createStatement();
