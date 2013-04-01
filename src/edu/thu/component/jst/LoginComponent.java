@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import edu.thu.bean.JSONResult;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ILoginComponent;
+import edu.thu.util.CommonUtil;
 
 public class LoginComponent extends AbstractComponent implements ILoginComponent {
 
@@ -20,7 +21,7 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 		InitialContext context;
 		try {
 			context = new InitialContext();
-			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jst_study");
+			DataSource dataSource = (DataSource) context.lookup(CommonUtil.JNDI_JST);
 			Connection connection = dataSource.getConnection();
 			String sql = "select * from jst_study.T_USER where login_id='" + paramMap.get("userId") + "'";
 			Statement statement = connection.createStatement();

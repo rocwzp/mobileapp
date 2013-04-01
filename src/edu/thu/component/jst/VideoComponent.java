@@ -27,9 +27,9 @@ public class VideoComponent extends AbstractComponent implements IVideoComponent
 			if (rs.next()) {
 				if (rs.getInt("video_status")==6) {
 					String video_url=rs.getString("stream");
-					StringBuffer videostream = new StringBuffer("<videostream>\n");
-					videostream.append("<url>" + video_url + "</url>\n");
-					videostream.append("</videostream>");
+					StringBuffer videostream = new StringBuffer("[{");
+					videostream.append("\"url\":\"" + video_url + "\"");
+					videostream.append("}]");
 					video_url=videostream.toString();
 					onResultSucceed(xmlResult, "获取成功", video_url);
 				} else {
