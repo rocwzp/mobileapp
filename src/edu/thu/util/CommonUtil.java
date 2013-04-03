@@ -1,7 +1,7 @@
 package edu.thu.util;
 
 /**
- * 所有的静态常量值的工具类
+ * 所有的静态常量值的工具类 V0.1
  */
 public class CommonUtil {
 
@@ -16,7 +16,7 @@ public class CommonUtil {
 
 	public static final int RESULT_CODE_DEFAULT = -1;
 	public static final String RESULT_MESSAGE_DEFAULT = "网络或者服务器故障";
-	public static final String RESULT_CONTENT_DEFAULT = "";
+	public static final String RESULT_CONTENT_DEFAULT = "\"\"";
 
 	public static final int RESULT_CODE_EXCEPTION = -1;
 	public static final int RESULT_CODE_SUCCEED = 1;

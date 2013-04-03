@@ -11,33 +11,31 @@ public class AbstractComponent implements IComponent {
 	@Override
 	public void onResultSucceed(JSONResult xmlResult, String message, String content) {
 		xmlResult.setCode(CommonUtil.RESULT_CODE_SUCCEED);
-		if (message != null) {
-			xmlResult.setMessage(message);
-		}
-		if (content != null) {
-			xmlResult.setContent(content);
-		}
+		setMessageContent(xmlResult, message, content);
 	}
 
 	@Override
 	public void onResultFail(JSONResult xmlResult, String message, String content) {
 		xmlResult.setCode(CommonUtil.RESULT_CODE_FAIL);
-		if (message != null) {
-			xmlResult.setMessage(message);
-		}
-		if (content != null) {
-			xmlResult.setContent(content);
-		}
+		setMessageContent(xmlResult, message, content);
 	}
 
 	@Override
 	public void onResultException(JSONResult xmlResult, String message, String content) {
 		xmlResult.setCode(CommonUtil.RESULT_CODE_EXCEPTION);
+		setMessageContent(xmlResult, message, content);
+	}
+	
+	private void setMessageContent(JSONResult xmlResult, String message, String content) {
 		if (message != null) {
 			xmlResult.setMessage(message);
+		} else {
+			xmlResult.setMessage(CommonUtil.RESULT_MESSAGE_DEFAULT);
 		}
 		if (content != null) {
 			xmlResult.setContent(content);
+		} else {
+			xmlResult.setContent(CommonUtil.RESULT_CONTENT_DEFAULT);
 		}
 	}
 

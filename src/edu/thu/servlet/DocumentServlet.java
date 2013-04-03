@@ -39,7 +39,7 @@ public class DocumentServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println(request.getRequestURI().toString());
+		System.out.println(request.getRequestURL().toString());
 		String action = request.getParameter("action");
 		String repository = request.getParameter("repository");
 
@@ -57,7 +57,7 @@ public class DocumentServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		JSONResult xmlResult = new JSONResult();
+		JSONResult result = new JSONResult();
 		HashMap<String, String> paramMap = new HashMap<String, String>();
 		Enumeration<String> enumeration = request.getParameterNames();
 		while (enumeration.hasMoreElements()) {
@@ -69,14 +69,15 @@ public class DocumentServlet extends HttpServlet {
 
 		try {
 			Method method = documentService.getClass().getMethod(action, JSONResult.class, HashMap.class);
-			method.invoke(documentService, xmlResult, paramMap);
+			method.invoke(documentService, result, paramMap);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+		System.out.println(result.buildJsonContent());
 		BufferedWriter out = null;
 		out = new BufferedWriter(new OutputStreamWriter(response.getOutputStream(), "UTF-8"));
-		out.write(xmlResult.buildJsonContent());
+		out.write(result.buildJsonContent());
 		out.flush();
 		out.close();
 	}
