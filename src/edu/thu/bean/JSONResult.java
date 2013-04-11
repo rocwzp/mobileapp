@@ -23,8 +23,15 @@ public class JSONResult {
 		}
 		StringBuffer result = new StringBuffer();
 		// {"code":0/-1/1,"message":"message","content":{content}}
-		result.append("{\"code\":").append(code).append(",\"message\":\"").append(message).append("\",\"content\":")
-				.append(content).append("}");
+//		try {
+			// result.append("{\"code\":").append(code).append(",\"message\":\"").append(new String(message.getBytes(),
+			// "UTF-8")).append("\",\"content\":")
+			// .append(new String(content.getBytes(), "UTF-8")).append("}");
+			result.append("{\"code\":").append(code).append(",\"message\":\"").append(message).append("\",\"content\":").append(content)
+					.append("}");
+		// } catch (UnsupportedEncodingException e) {
+		// e.printStackTrace();
+		// }
 		return result.toString();
 	}
 

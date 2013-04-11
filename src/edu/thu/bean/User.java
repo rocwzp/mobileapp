@@ -17,7 +17,7 @@ public class User {
 	}
 
 	public String buildJsonContent() {
-		return "{\"userId\":" + userId + ",\"userName\":" + userName + "}";
+		return "{\"userId\":\"" + userId + "\",\"userName\":\"" + userName + "\"}";
 	}
 
 	public String getUserId() {
