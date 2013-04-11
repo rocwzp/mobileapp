@@ -16,6 +16,7 @@ public class User {
 		this.userName = userName;
 	}
 
+	// build json content
 	public String buildJsonContent() {
 		return "{\"userId\":\"" + userId + "\",\"userName\":\"" + userName + "\"}";
 	}

@@ -22,4 +22,8 @@ public class CommonUtil {
 	public static final int RESULT_CODE_SUCCEED = 1;
 	public static final int RESULT_CODE_FAIL = 0;
 
+	public static final int SUGGESTION_TYPE_NEW = 0;
+	public static final int SUGGESTION_TYPE_HOT = 1;
+	public static final int SUGGESTION_DEFAULT_COUNT = 20;
+
 }
