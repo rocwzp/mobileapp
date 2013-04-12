@@ -42,6 +42,7 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 			} 
 			pass=buf.toString();
 			if (rs.next()) {
+				//////////
 				if (rs.getString("password").equalsIgnoreCase(pass)) {
 					onResultSucceed(xmlResult, "µÇÂ½³É¹¦", null);
 				} else {
