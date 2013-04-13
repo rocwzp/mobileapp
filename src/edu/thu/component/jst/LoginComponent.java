@@ -10,6 +10,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import edu.thu.bean.JSONResult;
+import edu.thu.bean.User;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ILoginComponent;
 import edu.thu.util.CommonUtil;
@@ -23,7 +24,7 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 			context = new InitialContext();
 			DataSource dataSource = (DataSource) context.lookup(CommonUtil.JNDI_JST);
 			Connection connection = dataSource.getConnection();
-			String sql = "select * from jst_study.T_USER where login_id='" + paramMap.get("userId") + "'";
+			String sql = "select TU.LOGIN_ID AS \"login_id\", TU.STU_ID AS \"stu_id\", TS.NAME AS \"stu_name\" from jst_study.T_USER TU, jst_study.T_STU TS where TU.LOGIN_ID='" + paramMap.get("userId") + "' AND TU.STU_ID = TS.ID";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			String pass=paramMap.get("password");			
@@ -44,7 +45,7 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 			if (rs.next()) {
 				//////////
 				if (rs.getString("password").equalsIgnoreCase(pass)) {
-					onResultSucceed(xmlResult, "µÇÂ½³É¹¦", null);
+					onResultSucceed(xmlResult, "µÇÂ½³É¹¦", new User(rs.getString("stu_id"), rs.getString("stu_name")).buildJsonContent());
 				} else {
 					onResultFail(xmlResult, "µÇÂ¼Ê§°Ü", null);
 				}
