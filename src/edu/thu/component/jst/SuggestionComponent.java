@@ -35,17 +35,17 @@ public class SuggestionComponent extends AbstractComponent implements ISuggestio
 			Connection connection = dataSource.getConnection();
 			String sql="";
 			if(type == CommonUtil.SUGGESTION_TYPE_HOT)
-				sql = "SELECT MC.ID AS \"id\", MC.CAT_ID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MV.DESCRIPTION AS \"description\" "
+				sql = "SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MV.DESCRIPTION AS \"description\" "
 						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV "
 						+ "WHERE ROWNUM <= "
 						+ count
-						+ " AND MC.ID = MV.COURSE_ID ORDER BY \"pv\" DESC";
+						+ " AND MC.ID = MV.COURSEID ORDER BY \"pv\" DESC";
 			else 
-				sql = "SELECT MC.ID AS \"id\", MC.CAT_ID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MV.DESCRIPTION AS \"description\" "
+				sql = "SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MV.DESCRIPTION AS \"description\" "
 						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV "
 						+ "WHERE ROWNUM <= "
 						+ count
-						+ " AND MC.ID = MV.COURSE_ID ORDER BY \"created\" DESC";
+						+ " AND MC.ID = MV.COURSEID ORDER BY \"created\" DESC";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			List<Course> courseList = new ArrayList<Course>();

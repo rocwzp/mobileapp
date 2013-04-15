@@ -24,7 +24,7 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 			context = new InitialContext();
 			DataSource dataSource = (DataSource) context.lookup(CommonUtil.JNDI_JST);
 			Connection connection = dataSource.getConnection();
-			String sql = "select TU.LOGIN_ID AS \"login_id\", TU.STU_ID AS \"stu_id\", TS.NAME AS \"stu_name\" from jst_study.T_USER TU, jst_study.T_STU TS where TU.LOGIN_ID='" + paramMap.get("userId") + "' AND TU.STU_ID = TS.ID";
+			String sql = "select TU.LOGIN_ID AS \"login_id\", TU.PASSWORD AS \"password\", TU.STU_ID AS \"stu_id\", TS.PERSON_NAME AS \"stu_name\" from jst_study.T_USER TU, jst_study.T_STU TS where TU.LOGIN_ID='" + paramMap.get("userId") + "' AND TU.STU_ID = TS.ID";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			String pass=paramMap.get("password");			
