@@ -3,44 +3,74 @@ package edu.thu.component.des;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import edu.thu.bean.JSONResult;
+import edu.thu.bean.Resource;
+import edu.thu.bean.ResourceWrapper;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ISearchComponent;
+import edu.thu.util.CommonUtil;
 
+/**
+ * 资源搜索功能
+ * 
+ * TODO:暂时没有去实现真实的功能,暂时不考虑分页和类别
+ * @author hujiawei
+ * 
+ */
 public class SearchComponent extends AbstractComponent implements ISearchComponent {
 
 	@Override
 	public void search(JSONResult xmlResult, HashMap<String, String> paramMap) {
+		int count;
+		if (paramMap.get("count") != null) {
+			count = Integer.parseInt(paramMap.get("count"));
+		} else {
+			count = CommonUtil.SEARCH_DEFAULT_COUNT;
+		}
 		InitialContext context;
-		String searchType = paramMap.get("searchType");
-		String catalog = paramMap.get("catalog");
-		String keyword = paramMap.get("keyword");
-		String count = paramMap.get("count");
-		String page = paramMap.get("page");
-		StringBuffer resultContent = new StringBuffer();
 		try {
 			context = new InitialContext();
-			DataSource dataSource = (DataSource) context.lookup("java:comp/env/design");
+			DataSource dataSource = (DataSource) context.lookup(CommonUtil.JNDI_DES);
 			Connection connection = dataSource.getConnection();
-			String sql = "select * from portal.SYS_USER where userid='" + paramMap.get("userId") + "'";
+			String sql = "SELECT KL.KL_ID AS \"id\", KL.KL_NAME AS \"name\", KL.KL_AUTH AS \"author\", KL.KL_KEYWORD AS \"keyword\", KL.KL_DESC AS \"desc\", KL.KL_CATALOG_ID AS \"catalogId\", C.KL_CATALOG_NAME AS \"catalogName\", KL.LOM_PATH AS \"lompath\", KL.KL_FILENAME AS \"filename\", KL.KL_FILEEXT AS \"fileext\", KL.USER_ID AS \"userId\", KL.KL_STATUS AS \"status\" "
+					+ " FROM DESIGN.KNOWLEDGE KL, DESIGN.KNOWLEDGE_CATALOG C "
+					+ "WHERE ROWNUM <= "
+					+ count
+					+ " AND kl.KL_CATALOG_ID = c.KL_CATALOG_ID ORDER BY \"id\" DESC";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
-			if (rs.next()) {
-				if (rs.getString("userpass").equalsIgnoreCase(paramMap.get("password"))) {
-				} else {
-					onResultSucceed(xmlResult, "登录成功", null);
-				}
-			} else {
-				onResultFail(xmlResult, "登录失败", null);
+			List<Resource> resourceList = new ArrayList<Resource>();
+			Resource resource;
+			while (rs.next()) {
+				resource = new Resource();
+				resource.setId(rs.getLong("id"));
+				resource.setName(rs.getString("name"));
+				resource.setUserId(rs.getString("userId"));
+				resource.setAuthor(rs.getString("author"));
+				resource.setCatalogId(rs.getLong("catalogId"));
+				resource.setCatalogName(rs.getString("catalogName"));
+				resource.setDesc(rs.getString("desc"));
+				resource.setKeyword(rs.getString("keyword"));
+				resource.setFilename(rs.getString("filename"));
+				resource.setFileext(rs.getString("fileext"));
+				resource.setStatus(rs.getInt("status"));
+				resourceList.add(resource);
+			}
+			onResultSucceed(xmlResult, "搜索成功", new ResourceWrapper(resourceList).buildJsonContent());
+			if (resourceList.size() < 1) {
+				onResultFail(xmlResult, "没有搜索结果", null);
 			}
 			rs.close();
 			statement.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 			onResultException(xmlResult, "网络或者服务器故障", null);
 		}
 	}

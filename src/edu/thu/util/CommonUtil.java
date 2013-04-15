@@ -18,12 +18,19 @@ public class CommonUtil {
 	public static final String RESULT_MESSAGE_DEFAULT = "网络或者服务器故障";
 	public static final String RESULT_CONTENT_DEFAULT = "\"\"";
 
+	// result type
 	public static final int RESULT_CODE_EXCEPTION = -1;
 	public static final int RESULT_CODE_SUCCEED = 1;
 	public static final int RESULT_CODE_FAIL = 0;
 
+	// suggestion type
 	public static final int SUGGESTION_TYPE_NEW = 0;
 	public static final int SUGGESTION_TYPE_HOT = 1;
 	public static final int SUGGESTION_DEFAULT_COUNT = 20;
+
+	// search type
+	public static final int SEARCH_TYPE_COURSE = 0;
+	public static final int SEARCH_TYPE_RESOURCE = 1;
+	public static final int SEARCH_DEFAULT_COUNT = 20;
 
 }
