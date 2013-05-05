@@ -10,9 +10,9 @@ import java.util.List;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
-import edu.thu.bean.JSONResult;
 import edu.thu.bean.jst.Course;
 import edu.thu.bean.jst.CourseWrapper;
+import edu.thu.bean.JSONResult;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ISuggestionComponent;
 import edu.thu.util.CommonUtil;
@@ -35,17 +35,17 @@ public class SuggestionComponent extends AbstractComponent implements ISuggestio
 			Connection connection = dataSource.getConnection();
 			String sql="";
 			if(type == CommonUtil.SUGGESTION_TYPE_HOT)
-				sql = "SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MV.DESCRIPTION AS \"description\" "
-						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV "
+				sql = "SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MVS.STREAM AS \"videoUrl\" "
+						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV, jst_study.M_VIDEOS MVS "
 						+ "WHERE ROWNUM <= "
 						+ count
-						+ " AND MC.ID = MV.COURSEID ORDER BY \"pv\" DESC";
+						+ " AND MC.ID = MV.COURSEID AND MC.ID = MVS.COURSEID AND MC.MODELID=4 ORDER BY \"pv\" DESC";
 			else 
-				sql = "SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MV.DESCRIPTION AS \"description\" "
-						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV "
+				sql = "SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MVS.STREAM AS \"videoUrl\" "
+						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV, jst_study.M_VIDEOS MVS  "
 						+ "WHERE ROWNUM <= "
 						+ count
-						+ " AND MC.ID = MV.COURSEID ORDER BY \"created\" DESC";
+						+ " AND MC.ID = MV.COURSEID  AND MC.ID = MVS.COURSEID AND MC.MODELID=4 ORDER BY \"created\" DESC";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			List<Course> courseList = new ArrayList<Course>();
@@ -61,7 +61,7 @@ public class SuggestionComponent extends AbstractComponent implements ISuggestio
 				course.setPv(rs.getLong("pv"));
 				course.setBaogaoren(rs.getString("baogaoren"));
 				course.setWeight(rs.getLong("weight"));
-				course.setDescription(rs.getString("description"));
+				course.setUrl(rs.getString("videoUrl"));
 				courseList.add(course);
 			}
 			onResultSucceed(xmlResult, "ÍÆ¼ö³É¹¦", new CourseWrapper(courseList).buildJsonContent());

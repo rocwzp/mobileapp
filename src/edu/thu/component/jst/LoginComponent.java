@@ -10,7 +10,7 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import edu.thu.bean.JSONResult;
-import edu.thu.bean.User;
+import edu.thu.bean.jst.UserData;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ILoginComponent;
 import edu.thu.util.CommonUtil;
@@ -24,7 +24,9 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 			context = new InitialContext();
 			DataSource dataSource = (DataSource) context.lookup(CommonUtil.JNDI_JST);
 			Connection connection = dataSource.getConnection();
-			String sql = "select TU.LOGIN_ID AS \"login_id\", TU.PASSWORD AS \"password\", TU.STU_ID AS \"stu_id\", TS.PERSON_NAME AS \"stu_name\" from jst_study.T_USER TU, jst_study.T_STU TS where TU.LOGIN_ID='" + paramMap.get("userId") + "' AND TU.STU_ID = TS.ID";
+			String sql = "select TU.ID AS \"userId\", TS.ID AS \"stuid\", TU.GROUP_ID AS \"groupid\", TU.LOGIN_ID AS \"login_id\", TU.PASSWORD AS \"password\", TS.PERSON_NAME AS \"personName\", TS.SEX AS \"sex\", TS.MOBILE AS \"mobile\", TS.TEL AS \"telephone\", TS.EMAIL AS \"email\", TS.ADDRESS AS \"address\" "+
+						 "from jst_study.T_USER TU, jst_study.T_STU TS where TU.LOGIN_ID='" + paramMap.get("userId") + 
+						 "' AND TU.STU_ID = TS.ID";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			String pass=paramMap.get("password");			
@@ -45,7 +47,10 @@ public class LoginComponent extends AbstractComponent implements ILoginComponent
 			if (rs.next()) {
 				//////////
 				if (rs.getString("password").equalsIgnoreCase(pass)) {
-					onResultSucceed(xmlResult, "µÇÂ½³É¹¦", new User(rs.getString("stu_id"), rs.getString("stu_name")).buildJsonContent());
+					onResultSucceed(xmlResult, "µÇÂ½³É¹¦", 
+							new UserData(rs.getLong("userId"), rs.getLong("stuid"), rs.getLong("groupid"), rs.getString("login_id"), 
+									rs.getString("personName"), rs.getString("sex"), rs.getString("mobile"), 
+									rs.getString("telephone"), rs.getString("email"), rs.getString("address")).buildJsonContent());
 				} else {
 					onResultFail(xmlResult, "µÇÂ¼Ê§°Ü", null);
 				}

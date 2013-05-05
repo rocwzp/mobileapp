@@ -10,14 +10,14 @@ public class Course {
 	private long pv;
 	private String baogaoren;
 	private long weight;
-	private String description;
+	private String videoUrl;
 	
 	public Course(){
 		
 	}
 
 	public Course(long id, long catid, String title, String thumb, String tags, long created, 
-			long pv, String baogaoren, long weight, String description) {
+			long pv, String baogaoren, long weight, String videoUrl) {
 		this.id = id;
 		this.catid = catid;
 		this.title = title;
@@ -27,14 +27,14 @@ public class Course {
 		this.pv = pv;
 		this.baogaoren = baogaoren;
 		this.weight = weight;
-		this.description = description;
+		this.videoUrl = videoUrl;
 	}
 
 	// build json content
 	public String buildJsonContent() {
-		return "{\"id\":" + id + ",\"catid\":\"" + catid + "\",\"title\":" + title + ",\"thumb\":\"" + thumb
-				+ "\",\"tags\":\"" + tags + "\",\"created\":\"" + created + "\",\"pv\":\"" + pv 
-				+ "\",\"baogaoren\":\"" + baogaoren + "\",\"weight\":\"" + weight + "\",\"description\":" + description + "}";
+		return "{\"id\":" + id + ",\"catid\":" + catid + ",\"title\":\"" + title + "\",\"thumb\":\"" + thumb
+				+ "\",\"tags\":\"" + tags + "\",\"created\":" + created + ",\"pv\":" + pv 
+				+ ",\"baogaoren\":\"" + baogaoren + "\",\"weight\":" + weight + ",\"videoUrl\":\"" + videoUrl + "\"}";
 	}
 
 	public long getId() {
@@ -109,11 +109,11 @@ public class Course {
 		this.weight = weight;
 	}
 	
-	public String getDescription() {
-		return description;
+	public String getUrl() {
+		return videoUrl;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setUrl(String videoUrl) {
+		this.videoUrl = videoUrl;
 	}
 }
