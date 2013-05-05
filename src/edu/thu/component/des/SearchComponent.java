@@ -21,6 +21,7 @@ import edu.thu.util.CommonUtil;
  * 资源搜索功能
  * 
  * TODO:暂时没有去实现真实的功能,暂时不考虑分页和类别
+ * 
  * @author hujiawei
  * 
  */
@@ -28,6 +29,7 @@ public class SearchComponent extends AbstractComponent implements ISearchCompone
 
 	@Override
 	public void search(JSONResult xmlResult, HashMap<String, String> paramMap) {
+		// TODO 如果类型是课程，则返回所有的课程，如果是资源，则需要考虑page和count
 		int count;
 		if (paramMap.get("count") != null) {
 			count = Integer.parseInt(paramMap.get("count"));
