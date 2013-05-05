@@ -1,4 +1,4 @@
-package edu.thu.bean;
+package edu.thu.bean.jst;
 
 import java.util.List;
 

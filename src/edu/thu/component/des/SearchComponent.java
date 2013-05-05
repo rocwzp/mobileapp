@@ -11,8 +11,8 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import edu.thu.bean.JSONResult;
-import edu.thu.bean.Resource;
-import edu.thu.bean.ResourceWrapper;
+import edu.thu.bean.des.Resource;
+import edu.thu.bean.des.ResourceWrapper;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ISearchComponent;
 import edu.thu.util.CommonUtil;
@@ -30,45 +30,79 @@ public class SearchComponent extends AbstractComponent implements ISearchCompone
 	@Override
 	public void search(JSONResult xmlResult, HashMap<String, String> paramMap) {
 		// TODO 如果类型是课程，则返回所有的课程，如果是资源，则需要考虑page和count
-		int count;
-		if (paramMap.get("count") != null) {
-			count = Integer.parseInt(paramMap.get("count"));
+		String sql = null;
+		int type = CommonUtil.SEARCH_TYPE_RESOURCE;
+		if (paramMap.get("type") != null && (type = Integer.parseInt(paramMap.get("type"))) == CommonUtil.SEARCH_TYPE_COURSE) {
+			sql = " SELECT COURSE.COURSE_ID AS \"id\", COURSE.COURSE_NAME AS \"name\", COURSE.COURSE_DESC AS \"desc\", COURSE.COURSE_CREATOR AS \"creator\", COURSE.COURSE_CREATE_DATE AS \"createDate\", COURSE.COURSE_TEACHER_DESC AS \"teacherDesc\", COURSE.USER_ID AS \"userId\", COURSE.COURSE_COUNT AS \"count\" "
+					+ "FROM COURSE ORDER BY \"createDate\" DESC ";
 		} else {
-			count = CommonUtil.SEARCH_DEFAULT_COUNT;
+			int count;
+			if (paramMap.get("count") != null) {
+				count = Integer.parseInt(paramMap.get("count"));
+			} else {
+				count = CommonUtil.SEARCH_DEFAULT_COUNT;
+			}
+			sql = "SELECT KL.KL_ID AS \"id\", KL.KL_NAME AS \"name\", KL.KL_AUTH AS \"author\", KL.KL_KEYWORD AS \"keyword\", KL.KL_DESC AS \"desc\", KL.KL_CATALOG_ID AS \"catalogId\", C.KL_CATALOG_NAME AS \"catalogName\", KL.LOM_PATH AS \"lompath\", KL.KL_FILENAME AS \"filename\", KL.KL_FILEEXT AS \"fileext\", KL.USER_ID AS \"userId\", KL.KL_STATUS AS \"status\" "
+					+ " FROM DESIGN.KNOWLEDGE KL, DESIGN.KNOWLEDGE_CATALOG C "
+					+ "WHERE ROWNUM <= "
+					+ count
+					+ " AND kl.KL_CATALOG_ID = c.KL_CATALOG_ID ORDER BY \"id\" DESC";
 		}
+
 		InitialContext context;
 		try {
 			context = new InitialContext();
 			DataSource dataSource = (DataSource) context.lookup(CommonUtil.JNDI_DES);
 			Connection connection = dataSource.getConnection();
-			String sql = "SELECT KL.KL_ID AS \"id\", KL.KL_NAME AS \"name\", KL.KL_AUTH AS \"author\", KL.KL_KEYWORD AS \"keyword\", KL.KL_DESC AS \"desc\", KL.KL_CATALOG_ID AS \"catalogId\", C.KL_CATALOG_NAME AS \"catalogName\", KL.LOM_PATH AS \"lompath\", KL.KL_FILENAME AS \"filename\", KL.KL_FILEEXT AS \"fileext\", KL.USER_ID AS \"userId\", KL.KL_STATUS AS \"status\" "
-					+ " FROM DESIGN.KNOWLEDGE KL, DESIGN.KNOWLEDGE_CATALOG C "
-					+ "WHERE ROWNUM <= "
-					+ count
-					+ " AND kl.KL_CATALOG_ID = c.KL_CATALOG_ID ORDER BY \"id\" DESC";
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
-			List<Resource> resourceList = new ArrayList<Resource>();
-			Resource resource;
-			while (rs.next()) {
-				resource = new Resource();
-				resource.setId(rs.getLong("id"));
-				resource.setName(rs.getString("name"));
-				resource.setUserId(rs.getString("userId"));
-				resource.setAuthor(rs.getString("author"));
-				resource.setCatalogId(rs.getLong("catalogId"));
-				resource.setCatalogName(rs.getString("catalogName"));
-				resource.setDesc(rs.getString("desc"));
-				resource.setKeyword(rs.getString("keyword"));
-				resource.setFilename(rs.getString("filename"));
-				resource.setFileext(rs.getString("fileext"));
-				resource.setStatus(rs.getInt("status"));
-				resourceList.add(resource);
+
+			if (type == CommonUtil.SEARCH_TYPE_RESOURCE) {
+				List<Resource> resourceList = new ArrayList<Resource>();
+				Resource resource;
+				while (rs.next()) {
+					resource = new Resource();
+					resource.setId(rs.getLong("id"));
+					resource.setName(rs.getString("name"));
+					resource.setUserId(rs.getString("userId"));
+					resource.setAuthor(rs.getString("author"));
+					resource.setCatalogId(rs.getLong("catalogId"));
+					resource.setCatalogName(rs.getString("catalogName"));
+					resource.setDesc(rs.getString("desc"));
+					resource.setKeyword(rs.getString("keyword"));
+					resource.setFilename(rs.getString("filename"));
+					resource.setFileext(rs.getString("fileext"));
+					resource.setStatus(rs.getInt("status"));
+					resourceList.add(resource);
+				}
+				onResultSucceed(xmlResult, "搜索成功", new ResourceWrapper(resourceList).buildJsonContent());
+				if (resourceList.size() < 1) {
+					onResultFail(xmlResult, "没有搜索结果", null);
+				}
+			} else {
+				List<Resource> resourceList = new ArrayList<Resource>();
+				Resource resource;
+				while (rs.next()) {
+					resource = new Resource();
+					resource.setId(rs.getLong("id"));
+					resource.setName(rs.getString("name"));
+					resource.setUserId(rs.getString("userId"));
+					resource.setAuthor(rs.getString("author"));
+					resource.setCatalogId(rs.getLong("catalogId"));
+					resource.setCatalogName(rs.getString("catalogName"));
+					resource.setDesc(rs.getString("desc"));
+					resource.setKeyword(rs.getString("keyword"));
+					resource.setFilename(rs.getString("filename"));
+					resource.setFileext(rs.getString("fileext"));
+					resource.setStatus(rs.getInt("status"));
+					resourceList.add(resource);
+				}
+				onResultSucceed(xmlResult, "搜索成功", new ResourceWrapper(resourceList).buildJsonContent());
+				if (resourceList.size() < 1) {
+					onResultFail(xmlResult, "没有搜索结果", null);
+				}
 			}
-			onResultSucceed(xmlResult, "搜索成功", new ResourceWrapper(resourceList).buildJsonContent());
-			if (resourceList.size() < 1) {
-				onResultFail(xmlResult, "没有搜索结果", null);
-			}
+
 			rs.close();
 			statement.close();
 		} catch (Exception e) {

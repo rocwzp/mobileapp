@@ -11,8 +11,8 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import edu.thu.bean.JSONResult;
-import edu.thu.bean.Resource;
-import edu.thu.bean.ResourceWrapper;
+import edu.thu.bean.des.Resource;
+import edu.thu.bean.des.ResourceWrapper;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.ISuggestionComponent;
 import edu.thu.util.CommonUtil;

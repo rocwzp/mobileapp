@@ -1,4 +1,4 @@
-package edu.thu.bean;
+package edu.thu.bean.jst;
 
 public class Course {
 	private long id;
