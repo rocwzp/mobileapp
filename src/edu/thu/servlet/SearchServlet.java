@@ -65,10 +65,14 @@ public class SearchServlet extends HttpServlet {
 //		}
 
 		// db not available
-		JSONResult result = new JSONResult();
-		result.setCode(CommonUtil.RESULT_CODE_SUCCEED);
-		result.setMessage("请求成功");
-		result.setContent(getInitParameter("jsoncontent"));
+		 JSONResult result = new JSONResult();
+		 result.setCode(CommonUtil.RESULT_CODE_SUCCEED);
+		 result.setMessage("请求成功");
+		 if (Integer.parseInt(request.getParameter("searchType")) == CommonUtil.SEARCH_TYPE_COURSE) {
+			 result.setContent(getInitParameter("jsoncontent_course"));
+		}else {
+			result.setContent(getInitParameter("jsoncontent_resource"));
+		}
 
 		System.out.println(result.buildJsonContent());
 		BufferedWriter out = null;

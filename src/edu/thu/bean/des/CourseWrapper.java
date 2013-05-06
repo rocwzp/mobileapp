@@ -1,7 +1,7 @@
 package edu.thu.bean.des;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 课程列表的包装类
@@ -13,12 +13,12 @@ import java.util.ArrayList;
 public class CourseWrapper implements Serializable {
 
 	private static final long serialVersionUID = 5784396349159493301L;
-	private ArrayList<Course> courseList;
+	private List<Course> courseList;
 
 	public CourseWrapper() {
 	}
 
-	public CourseWrapper(ArrayList<Course> courseList) {
+	public CourseWrapper(List<Course> courseList) {
 		this.courseList = courseList;
 	}
 
@@ -35,11 +35,11 @@ public class CourseWrapper implements Serializable {
 		return buffer.toString();
 	}
 
-	public ArrayList<Course> getCourseList() {
+	public List<Course> getCourseList() {
 		return courseList;
 	}
 
-	public void setCourseList(ArrayList<Course> courseList) {
+	public void setCourseList(List<Course> courseList) {
 		this.courseList = courseList;
 	}
 

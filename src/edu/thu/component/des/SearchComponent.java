@@ -11,6 +11,8 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import edu.thu.bean.JSONResult;
+import edu.thu.bean.des.Course;
+import edu.thu.bean.des.CourseWrapper;
 import edu.thu.bean.des.Resource;
 import edu.thu.bean.des.ResourceWrapper;
 import edu.thu.icomponent.AbstractComponent;
@@ -32,9 +34,9 @@ public class SearchComponent extends AbstractComponent implements ISearchCompone
 		// TODO 如果类型是课程，则返回所有的课程，如果是资源，则需要考虑page和count
 		String sql = null;
 		int type = CommonUtil.SEARCH_TYPE_RESOURCE;
-		if (paramMap.get("type") != null && (type = Integer.parseInt(paramMap.get("type"))) == CommonUtil.SEARCH_TYPE_COURSE) {
+		if (paramMap.get("searchType") != null && (type = Integer.parseInt(paramMap.get("searchType"))) == CommonUtil.SEARCH_TYPE_COURSE) {
 			sql = " SELECT COURSE.COURSE_ID AS \"id\", COURSE.COURSE_NAME AS \"name\", COURSE.COURSE_DESC AS \"desc\", COURSE.COURSE_CREATOR AS \"creator\", COURSE.COURSE_CREATE_DATE AS \"createDate\", COURSE.COURSE_TEACHER_DESC AS \"teacherDesc\", COURSE.USER_ID AS \"userId\", COURSE.COURSE_COUNT AS \"count\" "
-					+ "FROM COURSE ORDER BY \"createDate\" DESC ";
+					+ "FROM DESIGN.COURSE ORDER BY \"createDate\" DESC ";
 		} else {
 			int count;
 			if (paramMap.get("count") != null) {
@@ -80,25 +82,23 @@ public class SearchComponent extends AbstractComponent implements ISearchCompone
 					onResultFail(xmlResult, "没有搜索结果", null);
 				}
 			} else {
-				List<Resource> resourceList = new ArrayList<Resource>();
-				Resource resource;
+				List<Course> courseList = new ArrayList<Course>();
+				Course course;
 				while (rs.next()) {
-					resource = new Resource();
-					resource.setId(rs.getLong("id"));
-					resource.setName(rs.getString("name"));
-					resource.setUserId(rs.getString("userId"));
-					resource.setAuthor(rs.getString("author"));
-					resource.setCatalogId(rs.getLong("catalogId"));
-					resource.setCatalogName(rs.getString("catalogName"));
-					resource.setDesc(rs.getString("desc"));
-					resource.setKeyword(rs.getString("keyword"));
-					resource.setFilename(rs.getString("filename"));
-					resource.setFileext(rs.getString("fileext"));
-					resource.setStatus(rs.getInt("status"));
-					resourceList.add(resource);
+					course = new Course();
+					course.setId(rs.getLong("id"));
+					course.setName(rs.getString("name"));
+					course.setUserId(rs.getString("userId"));
+					course.setCreator(rs.getString("creator"));
+					course.setCreateDate(rs.getString("createDate"));
+					course.setDesc(rs.getString("desc"));
+//					course.setTeacherDesc(rs.getString("tearcherDesc"));//TODO
+					course.setTeacherDesc("暂无教师简介");
+					course.setCount(rs.getLong("count"));
+					courseList.add(course);
 				}
-				onResultSucceed(xmlResult, "搜索成功", new ResourceWrapper(resourceList).buildJsonContent());
-				if (resourceList.size() < 1) {
+				onResultSucceed(xmlResult, "搜索成功", new CourseWrapper(courseList).buildJsonContent());
+				if (courseList.size() < 1) {
 					onResultFail(xmlResult, "没有搜索结果", null);
 				}
 			}
