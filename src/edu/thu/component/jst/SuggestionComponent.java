@@ -35,17 +35,17 @@ public class SuggestionComponent extends AbstractComponent implements ISuggestio
 			Connection connection = dataSource.getConnection();
 			String sql="";
 			if(type == CommonUtil.SUGGESTION_TYPE_HOT)
-				sql = "SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MVS.STREAM AS \"videoUrl\" "
-						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV, jst_study.M_VIDEOS MVS "
-						+ "WHERE ROWNUM <= "
-						+ count
-						+ " AND MC.ID = MV.COURSEID AND MC.ID = MVS.COURSEID AND MC.MODELID=4 ORDER BY \"pv\" DESC";
+				sql = "SELECT * FROM (SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MVS.STREAM AS \"videoUrl\" "
+						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV, jst_study.M_VIDEOS MVS "						
+						+ " WHERE MC.ID = MV.COURSEID AND MC.ID = MVS.COURSEID AND MC.MODELID=4 ORDER BY \"pv\" DESC)"
+						+ " WHERE ROWNUM <= "
+						+ count;
 			else 
-				sql = "SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MVS.STREAM AS \"videoUrl\" "
+				sql = "SELECT * FROM (SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MVS.STREAM AS \"videoUrl\" "
 						+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV, jst_study.M_VIDEOS MVS  "
-						+ "WHERE ROWNUM <= "
-						+ count
-						+ " AND MC.ID = MV.COURSEID  AND MC.ID = MVS.COURSEID AND MC.MODELID=4 ORDER BY \"created\" DESC";
+						+ " WHERE MC.ID = MV.COURSEID  AND MC.ID = MVS.COURSEID AND MC.MODELID=4 ORDER BY \"created\" DESC)"
+						+ " WHERE ROWNUM <= "
+						+ count;
 			Statement statement = connection.createStatement();
 			ResultSet rs = statement.executeQuery(sql);
 			List<Course> courseList = new ArrayList<Course>();
