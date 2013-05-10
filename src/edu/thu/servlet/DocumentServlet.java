@@ -43,45 +43,41 @@ public class DocumentServlet extends HttpServlet {
 		System.out.println(request.getRequestURL().toString());
 
 		// when database is unvailable,commit it
-//		String action = request.getParameter("action");
-//		String repository = request.getParameter("repository");
-//
-//		DocumentService documentService = new DocumentService();
-//		try {
-//			documentService.suggestionComponent = (ISuggestionComponent) Class.forName(
-//					"edu.thu.component." + repository.toLowerCase() + ".SuggestionComponent").newInstance();
-//			documentService.downloadComponent = (IDownloadComponent) Class.forName(
-//					"edu.thu.component." + repository.toLowerCase() + ".DownloadComponent").newInstance();
-//			documentService.studydesignComponent = (IStudydesignComponent) Class.forName(
-//					"edu.thu.component." + repository.toLowerCase() + ".StudydesignComponent").newInstance();
-//			documentService.activityComponent = (IActivityComponent) Class.forName(
-//					"edu.thu.component." + repository.toLowerCase() + ".ActivityComponent").newInstance();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		JSONResult result = new JSONResult();
-//		HashMap<String, String> paramMap = new HashMap<String, String>();
-//		Enumeration<String> enumeration = request.getParameterNames();
-//		while (enumeration.hasMoreElements()) {
-//			String key = (String) enumeration.nextElement();
-//			if (!key.equalsIgnoreCase("repository") && !key.equalsIgnoreCase("action")) {
-//				paramMap.put(key, request.getParameter(key));
-//			}
-//		}
-//
-//		try {
-//			Method method = documentService.getClass().getMethod(action, JSONResult.class, HashMap.class);
-//			method.invoke(documentService, result, paramMap);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		String action = request.getParameter("action");
+		String repository = request.getParameter("repository");
+
+		DocumentService documentService = new DocumentService();
+		try {
+			documentService.suggestionComponent = (ISuggestionComponent) Class.forName(
+					"edu.thu.component." + repository.toLowerCase() + ".SuggestionComponent").newInstance();
+			documentService.downloadComponent = (IDownloadComponent) Class.forName(
+					"edu.thu.component." + repository.toLowerCase() + ".DownloadComponent").newInstance();
+			documentService.studydesignComponent = (IStudydesignComponent) Class.forName(
+					"edu.thu.component." + repository.toLowerCase() + ".StudydesignComponent").newInstance();
+			documentService.activityComponent = (IActivityComponent) Class.forName(
+					"edu.thu.component." + repository.toLowerCase() + ".ActivityComponent").newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		JSONResult result = new JSONResult();
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		Enumeration<String> enumeration = request.getParameterNames();
+		while (enumeration.hasMoreElements()) {
+			String key = (String) enumeration.nextElement();
+			if (!key.equalsIgnoreCase("repository") && !key.equalsIgnoreCase("action")) {
+				paramMap.put(key, request.getParameter(key));
+			}
+		}
+
+		try {
+			Method method = documentService.getClass().getMethod(action, JSONResult.class, HashMap.class);
+			method.invoke(documentService, result, paramMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		// when database is unvailable,using init params
-		JSONResult result = new JSONResult();
-		result.setCode(CommonUtil.RESULT_CODE_SUCCEED);
-		result.setMessage("«Î«Û≥…π¶");
-		result.setContent(getInitParameter("jsoncontent"));
 
 		System.out.println(result.buildJsonContent());
 		BufferedWriter out = null;

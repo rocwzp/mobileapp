@@ -36,70 +36,70 @@ public class SearchServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		System.out.println(request.getRequestURL().toString());
-//		String action = request.getParameter("action");
-//		String repository = request.getParameter("repository");
-//
-//		SearchService searchService = new SearchService();
-//		try {
-//			searchService.searchComponent = (ISearchComponent) Class.forName(
-//					"edu.thu.component." + repository.toLowerCase() + ".SearchComponent").newInstance();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//
-//		JSONResult result = new JSONResult();
-//		HashMap<String, String> paramMap = new HashMap<String, String>();
-//		Enumeration<String> enumeration = request.getParameterNames();
-//		while (enumeration.hasMoreElements()) {
-//			String key = (String) enumeration.nextElement();
-//			if (!key.equalsIgnoreCase("repository") && !key.equalsIgnoreCase("action")) {
-//				paramMap.put(key, request.getParameter(key));
-//			}
-//		}
-//
-//		try {
-//			Method method = searchService.getClass().getMethod(action, JSONResult.class, HashMap.class);
-//			method.invoke(searchService, result, paramMap);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
+		String action = request.getParameter("action");
+		String repository = request.getParameter("repository");
 
-		// db not available
-		 JSONResult result = new JSONResult();
-		 result.setCode(CommonUtil.RESULT_CODE_SUCCEED);
-		 result.setMessage("请求成功");
-		 if (Integer.parseInt(request.getParameter("searchType")) == CommonUtil.SEARCH_TYPE_COURSE) {
-			 result.setContent(getInitParameter("jsoncontent_course"));
-		}else {
-//			result.setContent(getInitParameter("jsoncontent_resource"));
-			String action = request.getParameter("action");
-			String repository = request.getParameter("repository");
+		SearchService searchService = new SearchService();
+		try {
+			searchService.searchComponent = (ISearchComponent) Class.forName(
+					"edu.thu.component." + repository.toLowerCase() + ".SearchComponent").newInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-			SearchService searchService = new SearchService();
-			try {
-				searchService.searchComponent = (ISearchComponent) Class.forName(
-						"edu.thu.component." + repository.toLowerCase() + ".SearchComponent").newInstance();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-//			JSONResult result = new JSONResult();
-			HashMap<String, String> paramMap = new HashMap<String, String>();
-			Enumeration<String> enumeration = request.getParameterNames();
-			while (enumeration.hasMoreElements()) {
-				String key = (String) enumeration.nextElement();
-				if (!key.equalsIgnoreCase("repository") && !key.equalsIgnoreCase("action")) {
-					paramMap.put(key, request.getParameter(key));
-				}
-			}
-
-			try {
-				Method method = searchService.getClass().getMethod(action, JSONResult.class, HashMap.class);
-				method.invoke(searchService, result, paramMap);
-			} catch (Exception e) {
-				e.printStackTrace();
+		JSONResult result = new JSONResult();
+		HashMap<String, String> paramMap = new HashMap<String, String>();
+		Enumeration<String> enumeration = request.getParameterNames();
+		while (enumeration.hasMoreElements()) {
+			String key = (String) enumeration.nextElement();
+			if (!key.equalsIgnoreCase("repository") && !key.equalsIgnoreCase("action")) {
+				paramMap.put(key, request.getParameter(key));
 			}
 		}
+
+		try {
+			Method method = searchService.getClass().getMethod(action, JSONResult.class, HashMap.class);
+			method.invoke(searchService, result, paramMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// db not available
+//		 JSONResult result = new JSONResult();
+//		 result.setCode(CommonUtil.RESULT_CODE_SUCCEED);
+//		 result.setMessage("请求成功");
+//		 if (Integer.parseInt(request.getParameter("searchType")) == CommonUtil.SEARCH_TYPE_COURSE) {
+//			 result.setContent(getInitParameter("jsoncontent_course"));
+//		}else {
+////			result.setContent(getInitParameter("jsoncontent_resource"));
+//			String action = request.getParameter("action");
+//			String repository = request.getParameter("repository");
+//
+//			SearchService searchService = new SearchService();
+//			try {
+//				searchService.searchComponent = (ISearchComponent) Class.forName(
+//						"edu.thu.component." + repository.toLowerCase() + ".SearchComponent").newInstance();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//
+////			JSONResult result = new JSONResult();
+//			HashMap<String, String> paramMap = new HashMap<String, String>();
+//			Enumeration<String> enumeration = request.getParameterNames();
+//			while (enumeration.hasMoreElements()) {
+//				String key = (String) enumeration.nextElement();
+//				if (!key.equalsIgnoreCase("repository") && !key.equalsIgnoreCase("action")) {
+//					paramMap.put(key, request.getParameter(key));
+//				}
+//			}
+//
+//			try {
+//				Method method = searchService.getClass().getMethod(action, JSONResult.class, HashMap.class);
+//				method.invoke(searchService, result, paramMap);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
 
 		System.out.println(result.buildJsonContent());
 		BufferedWriter out = null;
