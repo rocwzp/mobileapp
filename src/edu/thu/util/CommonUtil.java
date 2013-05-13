@@ -33,4 +33,8 @@ public class CommonUtil {
 	public static final int SEARCH_TYPE_RESOURCE = 1;
 	public static final int SEARCH_DEFAULT_COUNT = 20;
 
+	//favorite type
+	public static final int FAVORITE_TYPE_STU = 0;
+	public static final int FAVORITE_TYPE_GROUP = 1;
+	
 }

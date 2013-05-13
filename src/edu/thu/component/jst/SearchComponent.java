@@ -38,8 +38,8 @@ public class SearchComponent extends AbstractComponent implements ISearchCompone
 			DataSource dataSource = (DataSource) context.lookup("java:comp/env/jst_study");
 			Connection connection = dataSource.getConnection();
 			String sql = "SELECT * FROM (SELECT MC.ID AS \"id\", MC.CATID AS \"catid\", MC.TITLE AS \"title\", MC.THUMB AS \"thumb\", MC.TAGS AS \"tags\", MC.CREATED AS \"created\", MC.PV AS \"pv\", MC.BAOGAOREN AS \"baogaoren\", MC.WEIGHT AS \"weight\", MVS.STREAM AS \"videoUrl\" "
-					+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEO MV, jst_study.M_VIDEOS MVS, jst_study.M_CATEGORY MCAT "						
-					+ " WHERE MC.ID = MV.COURSEID AND MC.ID = MVS.COURSEID AND MCAT.CATID = MC.CATID AND MC.MODELID=4 "
+					+ " FROM jst_study.M_COURSE MC, jst_study.M_VIDEOS MVS, jst_study.M_CATEGORY MCAT "						
+					+ " WHERE MC.ID = MVS.COURSEID AND MCAT.CATID = MC.CATID AND MC.MODELID=4 "
 					+ " AND MCAT.NAME like '%"+catalog+"%' AND title like '%"+ keyword + "%' ORDER BY \"created\" DESC)"
 					+ " WHERE ROWNUM <= "
 					+ count;
