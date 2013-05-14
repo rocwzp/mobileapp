@@ -13,8 +13,6 @@ import javax.sql.DataSource;
 import edu.thu.bean.JSONResult;
 import edu.thu.bean.jst.CommentData;
 import edu.thu.bean.jst.CommentWrapper;
-import edu.thu.bean.jst.Course;
-import edu.thu.bean.jst.CourseWrapper;
 import edu.thu.icomponent.AbstractComponent;
 import edu.thu.icomponent.IStudydesignComponent;
 import edu.thu.util.CommonUtil;

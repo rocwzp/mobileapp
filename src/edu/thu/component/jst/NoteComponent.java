@@ -35,7 +35,7 @@ public class NoteComponent extends AbstractComponent implements INoteComponent {
 			rs.close();
 			statement.close();
 			
-			sql = "select id from T_COURSE_COMMENT t order by t.id desc";
+			sql = "select id from jst_study.T_COURSE_COMMENT t order by t.id desc";
 			statement = connection.createStatement();
 			rs = statement.executeQuery(sql);
 			if (rs.next()) {
@@ -46,7 +46,7 @@ public class NoteComponent extends AbstractComponent implements INoteComponent {
 			rs.close();
 			statement.close();
 			
-			sql = "INSERT INTO T_COURSE_COMMENT VALUES ("+id+", '"+paramMap.get("content")+"', to_date ('"+ date+ "', 'YYYY-MM-DD HH24:MI:SS'), "+paramMap.get("userId")+", "+paramMap.get("courseId")+", '', '')";
+			sql = "INSERT INTO jst_study.T_COURSE_COMMENT VALUES ("+id+", '"+paramMap.get("content")+"', to_date ('"+ date+ "', 'YYYY-MM-DD HH24:MI:SS'), "+paramMap.get("userId")+", "+paramMap.get("courseId")+", '', '')";
 			System.out.println(sql);
 			statement = connection.createStatement();
 			rs = statement.executeQuery(sql);
